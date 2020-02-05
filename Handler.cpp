@@ -9,7 +9,7 @@ void Handler::handle(int _fd, bool in) {
 		sockaddr_in income;
 		socklen_t income_size;
 		char buf[buffer_size] {};
-		int s = recvfrom(fd, buf, buffer_size, 0, (sockaddr*)&income, &income_size);
+		ssize_t s = recvfrom(fd, buf, buffer_size, 0, (sockaddr*)&income, &income_size);
 		
 		if (IS_RRQ(buf)) acceptNewClient(RRQ, buf, s, &income, &income_size);
 		else if (IS_WRQ(buf)) acceptNewClient(WRQ, buf, s, &income, &income_size);
@@ -22,7 +22,7 @@ void Handler::handle(int _fd, bool in) {
 				sockaddr_in income;
 				socklen_t income_size;
 				char buf[buffer_size] {};
-				int s = recvfrom(_fd, buf, buffer_size, 0, (sockaddr*)&income, &income_size);
+				ssize_t s = recvfrom(_fd, buf, buffer_size, 0, (sockaddr*)&income, &income_size);
 					
 				if (IS_DATA(buf)) client->notify(DATA, buf, s);
 				else if (IS_ACK(buf)) client->notify(ACK, buf, s);
@@ -32,7 +32,7 @@ void Handler::handle(int _fd, bool in) {
 	}
 }
 
-void Handler::acceptNewClient(int req_type, char * buf, int buf_size, sockaddr_in * req_addr, socklen_t * req_size) {
+void Handler::acceptNewClient(int req_type, char * buf, ssize_t buf_size, sockaddr_in * req_addr, socklen_t * req_size) {
 	request r;
 	r.type = req_type;
 	cout << "Received " << (req_type == RRQ ? "Read" : "Write") << " request" << endl;

@@ -21,7 +21,7 @@ void IHandler::init() {
 	IOManager::addEvent(fd, EPOLLIN);
 }
 
-bool IHandler::receiveRequest(char * buf, int size, request * r) {
+bool IHandler::receiveRequest(char * buf, ssize_t size, request * r) {
 	char * zero = (char*) memchr(buf+2, 0, size-2);
 	if (zero == nullptr) {
 		cout << "server: rq error (zero == nullptr in Handler::receiveRequest())" << endl; //error

@@ -15,8 +15,8 @@ protected:
 	int buffer_size = 512;
 
 	void init();
-	bool receiveRequest(char*, int, request*);
-	virtual void acceptNewClient(int a, char* b, int c, sockaddr_in * d, socklen_t * e) = 0;
+	bool receiveRequest(char*, ssize_t, request*);
+	virtual void acceptNewClient(int a, char* b, ssize_t c, sockaddr_in * d, socklen_t * e) = 0;
 public:
 	IHandler(IOManager * io) {
 		this->io = io;

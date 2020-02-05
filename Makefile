@@ -8,3 +8,6 @@ server: tftp_server.cpp config.cpp IOManager.cpp IHandler.cpp Handler.cpp Handle
 
 client: tftp_client.cpp
 	$(CC) -Wall -o client tftp_client.cpp -lboost_program_options
+
+clean:
+	rm client server

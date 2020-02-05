@@ -12,7 +12,7 @@ class IOManager;
 class Handler : public IHandler {
 	map<int, ClientHandler*> clients;
 protected:
-	void acceptNewClient(int, char*, int, sockaddr_in*, socklen_t*);
+	void acceptNewClient(int, char*, ssize_t, sockaddr_in*, socklen_t*);
 public:
 	Handler(IOManager * io) : IHandler(io) {}
 	void handle(int, bool);

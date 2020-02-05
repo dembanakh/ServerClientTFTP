@@ -10,7 +10,7 @@ void HandlerOnePort::handle(int _fd, bool in) {
 		sockaddr_in income;
 		socklen_t income_size;
 		char buf[buffer_size] {};
-		int s = recvfrom(fd, buf, buffer_size, 0, (sockaddr*)&income, &income_size);
+		ssize_t s = recvfrom(fd, buf, buffer_size, 0, (sockaddr*)&income, &income_size);
 		
 		string key = to_key(&income);
 		auto cl = clients.find(key);
@@ -26,7 +26,7 @@ void HandlerOnePort::handle(int _fd, bool in) {
 	}
 }
 
-void HandlerOnePort::acceptNewClient(int req_type, char * buf, int buf_size, sockaddr_in * req_addr, socklen_t * req_size) {
+void HandlerOnePort::acceptNewClient(int req_type, char * buf, ssize_t buf_size, sockaddr_in * req_addr, socklen_t * req_size) {
 	request r;
 	r.type = req_type;
 	cout << "Received " << (req_type == RRQ ? "Read" : "Write") << " request" << endl;

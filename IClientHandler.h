@@ -107,7 +107,7 @@ protected:
 		IOManager::modifyEvent(fd, EPOLLIN | 0); // EPOLLET
 	}
 
-	void receiveData(char * buf, int buf_size) {
+	void receiveData(char * buf, ssize_t buf_size) {
 		updateRTT();
 		if (buf_size >= 2) {
 			unsigned short recvd_block = (buf[2] << 8) + buf[3];
@@ -133,7 +133,7 @@ protected:
 		++subwindow_bnum;
 	}
 
-	void receiveACK(char * buf, int buf_size) {
+	void receiveACK(char * buf, ssize_t buf_size) {
 		updateRTT();
 		if (buf_size == 4) {
 			unsigned short ackled_block = (buf[2] << 8) + buf[3];
@@ -144,7 +144,7 @@ protected:
 				block_number = ackled_block + 1;
 				if (last_block == 65535) oack_received = true; // ACK0
 			} else {
-				//TODO sth went wrong
+				//sth went wrong
 				cout << "last_block=" << last_block << endl;
 				cout << "Error: IClientHandler::receiveACK() ackled_block=" << ackled_block << endl;
 				error = true;
@@ -157,7 +157,7 @@ protected:
 				removeSelf();
 			}
 		} else {
-			cout << "Error: IClientHandler::receiveACK() buf_size" << endl;
+			cout << "Error: IClientHandler::receiveACK() buf_size=" << buf_size << endl;
 			error = true;
 			return;
 		}
@@ -224,7 +224,7 @@ public:
 		}
 	}
 
-	void notify(int opcode, char * buf, int buf_size) {
+	void notify(int opcode, char * buf, ssize_t buf_size) {
 		if (r.type == WRQ) {
 			if (opcode == DATA) {
 				receiveData(buf, buf_size);
